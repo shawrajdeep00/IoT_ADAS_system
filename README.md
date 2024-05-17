@@ -1,6 +1,33 @@
 # IoT_ADAS_system
 
 
+A MongoDB database has been developed and hosted on Atlas Cloud, containing data about geographical coordinates (latitude and longitude), congestion levels, and traffic status (represented as integers and 'GREEN'/'RED' respectively). To interact with this database, we've created several JavaScript files as part of our project.
+
+## GPS parsing with real live traffic data in the server
+
+1. **connection.js**
+
+   This file establishes a connection to the MongoDB database using Mongoose. It configures the connection with the required settings such as `useNewUrlParser` and `useUnifiedTopology`. Upon successful connection, it logs a message indicating the connection success.
+
+2. **auth.js**
+
+   `auth.js` defines routes and middleware for handling authentication and data retrieval. It imports the database connection configuration from `connection.js` and also imports the `User` model from `userschema.js`. Notable endpoints include:
+   - `/mat`: Retrieves all data from the 'map1' collection.
+   - `/matl/:latn&longw`: Retrieves data based on latitude and longitude, returning traffic and signal information.
+
+3. **userschema.js**
+
+   This file defines the schema for the data stored in the MongoDB collection. It specifies the structure of each document, including fields such as latitude, longitude, traffic level, and signal status. The schema ensures data integrity and completeness.
+
+4. **app.js**
+
+   The main application file sets up an Express server, establishes a connection to the MongoDB database using `matrix` (possibly a typo for `connection.js`), and configures routes using the `auth` router. It listens on the specified port and logs a message upon server startup.
+
+These codes collectively form a system for managing and retrieving geographic and traffic-related data from a MongoDB database using Node.js and Express.
+
+
+---------------------------------------------------------------------------------------------------------------
+
 
 ## Motor and Tachometer Control on Raspberry Pi
 
