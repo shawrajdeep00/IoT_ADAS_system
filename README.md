@@ -19,7 +19,7 @@ This repository contains code for controlling a motor and reading tachometer dat
 ### Usage
 
 1. Connect your motor to GPIO pin 4 and your tachometer sensor to GPIO pin 21 (adjust pin numbers in the code if needed).
-2. Run the `main.py` script using Python.
+2. Run the `tachometer_impl.py` script using Python.
 
 ### Code Overview
 
