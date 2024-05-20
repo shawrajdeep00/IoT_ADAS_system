@@ -112,3 +112,77 @@ The Python script implements a drowsiness and yawning detection system in a rasp
 ### Disclaimer
 This system is intended for educational and demonstrative purposes. It should not be used as a substitute for professional medical or safety equipment. Use responsibly and ensure proper attention is given to safety while operating vehicles or machinery.
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Alcohol and Vibration Sensor-Based Emergency Alert Systems
+
+### Overview
+This project involves designing an emergency alert system for vehicles using alcohol and vibration sensors. The system aims to enhance road safety by monitoring the driver's alcohol consumption and detecting potential accidents, with live data sent to authorized servers for monitoring.
+
+### Components
+- **Alcohol Sensor Module**: Detects alcohol concentration in the vehicle's atmosphere, particularly around the driver's seat.
+- **Buzzer**: Alerts the driver when alcohol levels are high.
+- **Motor Driver**: Controls the vehicle's engine based on alcohol concentration.
+- **Thingspeak Server**: Receives live data on alcohol consumption and accident alerts.
+- **Vibration Sensor**: Monitors vehicle vibrations to detect accidents.
+- **GPS Module**: Provides live coordinates for tracking and emergency response.
+
+
+### Alcohol Detection
+The system measures the alcohol concentration and responds based on predefined thresholds:
+
+1. **Alcohol Concentration < 20%**: 
+   - Engine runs normally.
+   - No alerts are triggered.
+
+2. **Alcohol Concentration 20% - 50%**: 
+   - Engine runs at half speed.
+   - An alert is sent to the computer display.
+   - User is advised to reduce alcohol consumption.
+
+3. **Alcohol Concentration > 50%**: 
+   - Engine is completely switched off.
+   - Buzzer alerts the user.
+   - Data is sent to the 'traffic police server' on Thingspeak.
+   - Vehicle details and GPS coordinates are reported.
+
+#### Alcohol Level Calculation
+The following Python snippet converts the analog values from the alcohol sensor into a percentage:
+
+```python
+def get_alcohol_level():
+    reading = bus.read_i2c_block_data(0x50, 0x00, 2)
+    reading2 = float(reading * 0.43)
+    print("analog reading= ", str(reading), str(reading2), '%')
+    return reading2
+```
+
+### Accident Detection
+A vibration module detects excessive vibrations indicative of an accident:
+
+1. **Normal Vibrations**:
+   - Engine runs normally.
+   - No alerts are triggered.
+
+2. **Threshold Exceeded**:
+   - Engine is switched off.
+   - An alert is displayed on the onboard computer system.
+   - Data is sent to the 'Hospitals' server on Thingspeak.
+   - The hospital compares GPS coordinates to dispatch emergency services.
+
+### Thingspeak Server
+- **Alcohol Data**: Sent to 'traffic police server' with current alcohol levels and GPS coordinates.
+- **Accident Data**: Sent to 'Hospitals' server with accident status and GPS coordinates.
+
+### GPS Integration
+- Write API key from Thingspeak is used.
+- GPS module is parsed into the code.
+- Live data visualization is achieved on the Thingspeak platform.
+
+## Conclusion
+This emergency alert system enhances vehicle safety by:
+- Preventing drunk driving.
+- Detecting and responding to accidents.
+- Providing real-time data to authorities for timely intervention.
+- Ensuring driver safety and compliance with traffic regulations.
+
