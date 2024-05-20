@@ -179,10 +179,139 @@ A vibration module detects excessive vibrations indicative of an accident:
 - GPS module is parsed into the code.
 - Live data visualization is achieved on the Thingspeak platform.
 
-## Conclusion
+### Conclusion
 This emergency alert system enhances vehicle safety by:
 - Preventing drunk driving.
 - Detecting and responding to accidents.
 - Providing real-time data to authorities for timely intervention.
 - Ensuring driver safety and compliance with traffic regulations.
 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+## AI Voice Assistant System for Convenient Driving
+
+### Overview
+
+This project implements an intelligent personal assistant using an artificial intelligence voice assistant system on a Raspberry Pi. The system is capable of performing multiple tasks simultaneously and managing onboard computer functionalities through hot words like "Ok Google." It handles a range of activities including speech recognition, GPS access to nearby utility stores, and retrieving information from the internet, which can be displayed on a screen. The core of this project utilizes the Google Assistant integrated with Raspberry Pi hardware via API control to facilitate two-way communication.
+
+### Requirements
+
+- **Hardware:**
+  - Raspberry Pi
+  - USB Microphone
+  - USB Speaker
+
+- **Software:**
+  - Google Assistant API
+  - Python 3
+  - Virtual Environment
+  - Required Libraries: `portaudio19-dev`, `libffi-dev`, `libssl-dev`, `google-assistant-sdk`, `google-auth-outhlib`
+
+### Setup Instructions
+
+#### 1. Google Assistant Console Setup
+
+1. **Create a Project:**
+   - Visit [Google Actions Console](https://console.actions.google.com/).
+   - Create a new project and register your hardware as a Google Assistant device.
+   - Set the device type to "speaker" and obtain the `Model ID`.
+
+2. **OAuth Credential File:**
+   - Register the model to get an OAuth credential file.
+   - This file allows client applications to call the Google Assistant service.
+
+#### 2. Enable Google Assistant API
+
+1. **Enable API:**
+   - Visit [Google API Console](https://console.developers.google.com/apis).
+   - Select your project and enable the Google Assistant API.
+   - Configure the consent screen and save the project.
+
+#### 3. Configure Google Account Settings
+
+- Enable the following in your Google account settings:
+  - Web and App Activities
+  - Audio and Video Recording
+  - Location Services
+
+#### 4. Hardware Connections
+
+1. **Microphone and Speaker Setup:**
+   - Identify the `card number` and `device number` for the microphone and speaker:
+     ```bash
+     $ arecord -l
+     $ aplay -l
+     ```
+
+2. **Create `.asoundrc` File:**
+   - Create and edit `.asoundrc` in the home directory:
+     ```bash
+     $ nano /home/pi/.asoundrc
+     ```
+
+3. **Test Audio Setup:**
+   - Test the microphone and speaker:
+     ```bash
+     $ speaker-test -t wav
+     $ arecord –format=S16_LE –duration=5 –rate=16000 –file-type=raw out.raw
+     $ aplay –format=S16_LE –rate=16000 out.raw
+     ```
+
+#### 5. Software Installation
+
+1. **Update and Upgrade:**
+   - Update Raspberry Pi and install necessary packages:
+     ```bash
+     $ sudo apt-get update
+     $ sudo apt-get upgrade
+     ```
+
+2. **Python and Virtual Environment:**
+   - Install Python 3 and create a virtual environment:
+     ```bash
+     $ sudo apt-get install python3-dev python3-venv
+     $ python3 -m venv env
+     $ source env/bin/activate
+     $ env/bin/python -m pip install –upgrade pip setuptools wheel
+     ```
+
+3. **Install Required Libraries:**
+   - Install `libffi` and `libssl`:
+     ```bash
+     $ sudo apt-get install portaudio19-dev libffi-dev libssl-dev
+     ```
+
+4. **Install Google Assistant SDK:**
+   - Install the SDK samples:
+     ```bash
+     $ python -m pip install –upgrade google-assistant-sdk[samples]
+     ```
+
+#### 6. Configure OAuth Credential
+
+1. **Copy Credential File:**
+   - Copy the OAuth credential file to `/home/pi`.
+
+2. **Configure Shell:**
+   - Configure the credential file in the shell:
+     ```bash
+     $ python -m pip install –upgrade google-auth-outhlib[tool]
+     $ google-oauthlib-tool –scope https://www.googleapis.com/auth/assistant-sdk-prototype –save –headless –client-secrets /home/pi/[credential_file]
+     ```
+
+3. **Authorize:**
+   - Google will prompt for an authorization code sent to your email.
+
+##### 7. Test the Setup
+
+- Verify the setup by running:
+  ```bash
+  $ googlesamples-assistant-pushtotalk –project-id [project_id] –device-model-id [model_id]
+  ```
+
+### Conclusion
+
+With the setup complete, your Raspberry Pi is now an intelligent voice assistant system capable of handling various tasks and improving the driving experience with hands-free operations.
